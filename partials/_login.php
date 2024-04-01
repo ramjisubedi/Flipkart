@@ -22,32 +22,25 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 
 <!-- main sections starts -->
 <main class="w-full mt-12 sm:mt-0">
-
 <!-- row -->
 <div class="flex sm:w-4/6 sm:mt-4 m-auto mb-7 bg-white shadow-lg">
-
             <!-- sidebar column  -->
             <div class="loginSidebar bg-primary-blue p-10 pr-12 hidden sm:flex flex-col gap-4 w-2/5">
                 <h1 class="font-medium text-white text-3xl">Login</h1>
                 <p class="text-gray-200 text-lg">Get access to your Orders, Wishlist and Recommendations</p>
             </div>
             <!-- sidebar column  -->
-
             <!-- login column -->
             <div class="flex-1 overflow-hidden">
-
                 <!-- edit info container -->
                 <div class="text-center py-10 px-14">
-                    
                     <!-- input container -->
                     <form method="POST">
                     <div class="flex flex-col w-full gap-4">
-
                         <!-- email input -->
                         <div class="flex flex-col gap-1">
                         <h2 class="text-xs text-primary-grey text-left">Enter Email</h2>
                         <input type="email" name="email" placeholder="Enter Email" class="py-2 outline-none border-b rounded-sm focus:border-primary-blue" required>
-
                         <?php
                         if($error) {
                             echo '<span class="text-xxs text-red-500 font-medium text-left mt-0.5">Please enter valid Email ID</span>';
@@ -57,7 +50,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
                         ?>
                         </div>
                         <!-- email input -->
-
                         <!-- password input -->
                         <div class="flex flex-col gap-1">
                             <h2 class="text-xs text-primary-grey text-left">Enter Password</h2>
