@@ -16,7 +16,48 @@ include '../partials/_categories_nav.php';
     }
 </style>
 
+<?php 
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "flipkart_clone";
 
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+
+if($_POST){
+    var_dump($_POST);
+    $filename = $_FILES["uploadfile"]["name"];
+    $tempname = $_FILES["uploadfile"]["tmp_name"];
+    $folder = "../assets/images/products/" . $filename;
+    $title = $_POST['title'];
+ 
+   
+ 
+    // Get all the submitted data from the form
+    $sql = "INSERT INTO products (product_title, product_img) VALUES ('$title','$filename')";
+ 
+    // Execute query
+    mysqli_query($conn, $sql);
+ 
+    // Now let's move the uploaded image into the folder: image
+    if (move_uploaded_file($tempname, $folder)) {
+        echo "<h3>  Image uploaded successfully!</h3>";
+    } else {
+        echo "<h3>  Failed to upload image!</h3>";
+    }
+
+
+}
+
+
+
+?>
     <!-- main sections starts -->
     <main class="w-full mt-16 sm:mt-0">
 
@@ -106,9 +147,22 @@ include '../partials/_categories_nav.php';
                 <div class="flex flex-col gap-3 sm:mr-4 overflow-hidden sm:p-1 ">
                 <div class="table-responsive">
                   
-                <from>
-                    <input type="text" placeholder="title" /> 
-                </from>
+                <form method="post" action="#" enctype="multipart/form-data">
+                <div class="col-md-3 mt-1 col-12 form-group">                                     
+                                    
+                    <input type="text" class="form-control" name="title" placeholder="Title" required/>
+                </div>
+            
+                               
+                                <div class="col-md-3 mt-1 col-12 form-group">                                     
+                                    
+                                    <input type="file" class="form-control" name="uploadfile" placeholder="Title" required/>
+                                </div>
+                                <div class="col-md-3 mt-1 col-12 form-group">                                     
+                                    
+                                    <button type="submit">Save</button>
+                                </div>
+                </form>
 </div>
 
                 </div>
