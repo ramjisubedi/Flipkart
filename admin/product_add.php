@@ -16,26 +16,6 @@ include '../partials/_categories_nav.php';
     }
 </style>
 
-<!-- SIMPLE DB CONNECTION -->
-<?php 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "flipkart_clone";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
-
-$sql = "SELECT * FROM products";
-$result = $conn->query($sql);
-
-
-
-?>
 
     <!-- main sections starts -->
     <main class="w-full mt-16 sm:mt-0">
@@ -56,7 +36,7 @@ $result = $conn->query($sql);
 
                     <!-- order status checkboxes -->
                     <div class="flex flex-col py-3 text-sm">
-                    <a href="index.php"> <span class="font-medium px-4">Product List</span></a>
+                       <a href="index.php"> <span class="font-medium px-4">Product List</span></a>
                        <a href="product_add.php"> <span class="font-medium px-4">Product Add</span></a>
                        <!-- <a> <span class="font-medium px-4">ORDER STATUS</span></a> -->
 
@@ -125,40 +105,10 @@ $result = $conn->query($sql);
                 <!-- orders container -->
                 <div class="flex flex-col gap-3 sm:mr-4 overflow-hidden sm:p-1 ">
                 <div class="table-responsive">
-                   <table class="table display data-table text-nowrap col-12" id="product_list" >
-                        <thead>
-                            <tr>
-                                <th>Product Title</th>
-                                <th>Name</th>
-                                <th>Name</th>
-                                <th>Name</th>
-                                <th>Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            
-                            if ($result->num_rows > 0) {
-                                // output data of each row
-                                while($row = $result->fetch_assoc()) { ?>
-                                  <tr>
-                                <td><?= $row['product_title'] ?></td>
-                                <td>NAME</td>
-                                <td>NAME</td>
-                                <td>NAME</td>
-                                <td>NAME</td>
-                            </tr>
-                              <?php  }
-                              } else {
-                                echo "0 results";
-                              }
-                            
-                            ?>
-                            
-                           
-                        </tbody>
-                   </table>
-
+                  
+                <from>
+                    <input type="text" placeholder="title" /> 
+                </from>
 </div>
 
                 </div>
@@ -178,6 +128,5 @@ include 'footer.php';
 ?>
 <script src="https://cdn.datatables.net/2.0.3/js/dataTables.min.js" ></script>
 <script>
-
     $('#product_list').DataTable({})
 </script>
