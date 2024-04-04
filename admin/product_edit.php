@@ -16,7 +16,6 @@ include '../partials/_categories_nav.php';
     }
 </style>
 
-<!-- SIMPLE DB CONNECTION -->
 <?php 
 $servername = "localhost";
 $username = "root";
@@ -30,13 +29,44 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM products";
-$result = $conn->query($sql);
+
+$title = '';
+$country = '';
+if ($_GET['id']){
+
+    $id = $_GET['id'];
+    // Select data associated with this particular id
+$result = mysqli_query($conn, "SELECT * FROM products WHERE id = $id");
+
+// Fetch the next row of a result set as an associative array
+$resultData = mysqli_fetch_assoc($result);
+$title = $resultData['product_title'];
+$country = $resultData['product_origin_country'];
+
+}
+
+
+
+if($_POST){
+
+    $id = mysqli_real_escape_string($conn, $_POST['id']);
+    $title_data = mysqli_real_escape_string($conn, $_POST['title']);
+	$country_data = mysqli_real_escape_string($conn, $_POST['country']);
+   
+   
+ 
+    // Get all the submitted data from the form
+
+    $result = mysqli_query($mysqli, "UPDATE products SET `product_title` = '$title_data', `product_origin_country` = '$country_data' WHERE `id` = $id");
+
+        echo "<h3>  DATA Updated</h3>";
+
+
+}
 
 
 
 ?>
-
     <!-- main sections starts -->
     <main class="w-full mt-16 sm:mt-0">
 
@@ -56,7 +86,7 @@ $result = $conn->query($sql);
 
                     <!-- order status checkboxes -->
                     <div class="flex flex-col py-3 text-sm">
-                    <a href="index.php"> <span class="font-medium px-4">Product List</span></a>
+                       <a href="index.php"> <span class="font-medium px-4">Product List</span></a>
                        <a href="product_add.php"> <span class="font-medium px-4">Product Add</span></a>
                        <!-- <a> <span class="font-medium px-4">ORDER STATUS</span></a> -->
 
@@ -125,37 +155,19 @@ $result = $conn->query($sql);
                 <!-- orders container -->
                 <div class="flex flex-col gap-3 sm:mr-4 overflow-hidden sm:p-1 ">
                 <div class="table-responsive">
-                   <table class="table display data-table text-nowrap col-12" id="product_list" >
-                        <thead>
-                            <tr>
-                                <th>Product Title</th>
-                                <th>Country</th>
-                                <th>Action</th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            
-                            if ($result->num_rows > 0) {
-                                // output data of each row
-                                while($row = $result->fetch_assoc()) { ?>
-                                    <tr>
-                                        <td><?= $row['product_title'] ?></td>
-                                        <td><?= $row['product_origin_country'] ?></td>                                
-                                        <td><a href="product_edit.php?id=<?= $row['id'] ?>">Edit</a> | <a href="product_delete.php?id=<?= $row['id'] ?>">Delete</a></td>
-                                    </tr>
-                              <?php  }
-                              } else {
-                                echo "0 results";
-                              }
-                            
-                            ?>
-                            
-                           
-                        </tbody>
-                   </table>
-
+                  
+                <form method="post" action="#" enctype="multipart/form-data">
+                <div class="col-md-3 mt-1 col-12 form-group">                                     
+                    <input type="hidden" name="id" value="<?= $id ?>" />              
+                    <input type="text" class="form-control" name="title" placeholder="Title" value="<?= $title; ?>" required/>
+                </div>
+                <div class="col-md-3 mt-1 col-12 form-group">                                                           
+                    <input type="text" class="form-control" name="country" placeholder="Country" value="<?= $country; ?>" required/>
+                </div>
+                    <div class="col-md-3 mt-1 col-12 form-group">                                     
+                        <button type="submit">Save</button>
+                    </div>
+                </form>
 </div>
 
                 </div>
@@ -175,6 +187,5 @@ include 'footer.php';
 ?>
 <script src="https://cdn.datatables.net/2.0.3/js/dataTables.min.js" ></script>
 <script>
-
     $('#product_list').DataTable({})
 </script>
